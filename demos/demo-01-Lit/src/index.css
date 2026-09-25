@@ -1,0 +1,16 @@
+/* the props */
+@import "open-props/style";
+
+/* optional imports that use the props */
+@import "open-props/normalize";
+
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  padding: var(--size-4);
+}
