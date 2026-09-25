@@ -1,5 +1,35 @@
 # Assignment Capita Selecta
 
+## Table of contents
+
+- [Demo 01 – React (`demos/demo-01-React`)](#demo-01--react-demosdemo-01-react)
+  - [Run it](#run-it)
+  - [What happens in the demo](#what-happens-in-the-demo)
+    - [1. The data is stored flat (normalized state)](#1-the-data-is-stored-flat-normalized-state)
+    - [2. The state lives in `App`](#2-the-state-lives-in-app)
+    - [3. The component tree and props](#3-the-component-tree-and-props)
+    - [4. Local UI state in `Employee`](#4-local-ui-state-in-employee)
+    - [5. Moving an employee (lifting state up)](#5-moving-an-employee-lifting-state-up)
+  - [React concepts shown](#react-concepts-shown)
+  - [Styling](#styling)
+  - [Known limitations](#known-limitations)
+- [Demo 01 – Lit (`demos/demo-01-Lit`)](#demo-01--lit-demosdemo-01-lit)
+  - [Run it](#run-it-1)
+  - [No React, but Vite](#no-react-but-vite)
+  - [What happens in the demo](#what-happens-in-the-demo-1)
+    - [1. Same flat data](#1-same-flat-data)
+    - [2. Every component is a Web Component](#2-every-component-is-a-web-component)
+    - [3. State in `<company-app>`](#3-state-in-company-app)
+    - [4. Rendering with `html` templates](#4-rendering-with-html-templates)
+    - [5. Local UI state in `<company-employee>`](#5-local-ui-state-in-company-employee)
+    - [6. Moving an employee with events](#6-moving-an-employee-with-events)
+    - [7. Styling and Shadow DOM](#7-styling-and-shadow-dom)
+- [React vs Lit – the differences](#react-vs-lit--the-differences)
+  - [What stays the same](#what-stays-the-same)
+  - [Conclusion](#conclusion)
+
+---
+
 ## Demo 01 – React (`demos/demo-01-React`)
 
 A small React app (Vite + React 19) that shows the structure of a company, **TechCorp**. The company has departments, the departments have teams, and the teams have employees. You can move an employee to a different team. The page updates right away, and next to it you can see the raw state as JSON.
@@ -109,6 +139,25 @@ cd demos/demo-01-Lit
 npm install
 npm run dev
 ```
+
+### No React, but Vite
+
+**No React.** [`package.json`](demos/demo-01-Lit/package.json) only has `lit` and `open-props` as dependencies. None of the Lit files import anything from React, and there is no JSX.
+
+**Vite is used, but only as a build tool.** It is the only devDependency. It doesn't appear in the app code; it runs the dev server and bundles the files. It is needed for two things:
+
+1. **Bare imports.** The code imports packages by name, like `import { LitElement } from "lit"`. Browsers can't find a package from a name like that on their own, so Vite resolves it from `node_modules`.
+2. **CSS imports.** `import "./index.css"` in `main.js`, and the `@import "open-props/style"` inside that file, are handled by Vite. Browsers can't load a CSS file through a JavaScript import like that.
+
+Vite is not specific to React. The React demo also uses Vite, plus the `@vitejs/plugin-react` plugin to compile JSX. The Lit version needs no plugin, because `html` templates are already plain JavaScript.
+
+**It could also run without Vite.** You would load Lit and Open Props from a CDN instead:
+
+```js
+import { LitElement, html, css } from "https://cdn.jsdelivr.net/npm/lit@3/+esm";
+```
+
+and add a `<link>` to the Open Props CSS in `index.html`. Then any simple static server can serve it, with no `npm install` and no build step. The downside is that the app depends on the CDN and nothing gets bundled or optimised. React can't do this as easily, because JSX always has to be compiled first.
 
 ### What happens in the demo
 

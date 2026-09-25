@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Tasks</title>
+    <script type="module" src="./task-board.js"></script>
+    <!-- DEMO NOTE: This CSS is deliberately aggressive. It will wreck the
+         rest of the page but cannot touch <task-board>'s internals because
+         of Shadow DOM style encapsulation. -->
+    <style>
+      *:not(task-board) {
+        color: red !important;
+        font-size: 48px !important;
+        font-family: 'Comic Sans MS', 'Comic Sans', cursive !important;
+        border: 6px dashed magenta !important;
+        background: yellow !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Tasks</h1>
+    <p>This page currently does nothing.</p>
+    <task-board></task-board>
+  </body>
+</html>
