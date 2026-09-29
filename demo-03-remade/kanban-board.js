@@ -2,6 +2,17 @@ import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/al
 import { initialBoard } from './board-data.js';
 import './kanban-column.js';
 
+const STORAGE_KEY = 'kanban-board';
+
+function loadBoard() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch {
+        return null;
+    }
+}
+
 class KanbanBoard extends LitElement {
     static properties = {
         _board: { state: true },
@@ -18,17 +29,32 @@ class KanbanBoard extends LitElement {
       gap: 16px;
       align-items: start;
     }
+    .reset {
+      margin-bottom: 16px;
+    }
   `;
 
     constructor() {
         super();
-        this._board = initialBoard;
+        this._board = loadBoard() ?? initialBoard;
     }
+
+    updated(changedProperties) {
+        if (changedProperties.has('_board')) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(this._board));
+            } catch {
+                // Storage can be full or blocked (private mode): the board still works, it just isn't saved.
+            }
+        }
+    }
+
 
     render() {
         const { columnOrder, columns, cards } = this._board;
 
         return html`
+        <button class="reset" @click=${this._reset}>Reset board</button>
         <div
             class="board"
             @card-move=${this._onCardMove}
@@ -89,6 +115,10 @@ class KanbanBoard extends LitElement {
             cards: { ...cards, [id]: { id, title, description: '', priority } },
             columns: { ...columns, [columnId]: { ...column, cardIds: [...column.cardIds, id] } },
         };
+    }
+
+    _reset() {
+        this._board = initialBoard;
     }
 }
 
