@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fractal tree – step 3</title>
+    <script type="module" src="./fractal-tree.js"></script>
+    <style>
+      body {
+        background: #f0f9ff;
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 16px;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px 32px;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stage {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 540px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The component that grows itself</h1>
+
+    <div class="controls">
+      <label>
+        Depth
+        <input id="depth" type="range" min="1" max="8" value="5" />
+        <output id="depth-value">5</output>
+      </label>
+      <label>
+        Angle
+        <input id="angle" type="range" min="0" max="90" value="25" />
+        <output id="angle-value">25°</output>
+      </label>
+      <p><output id="count">31</output> components on screen</p>
+    </div>
+
+    <div class="stage">
+      <fractal-tree depth="5"></fractal-tree>
+    </div>
+
+    <script type="module">
+      const tree = document.querySelector('fractal-tree');
+      const depthInput = document.querySelector('#depth');
+      const angleInput = document.querySelector('#angle');
+
+      depthInput.addEventListener('input', () => {
+        const depth = depthInput.valueAsNumber;
+        tree.depth = depth;
+        document.querySelector('#depth-value').textContent = depth;
+        document.querySelector('#count').textContent = 2 ** depth - 1;
+      });
+
+      angleInput.addEventListener('input', () => {
+        tree.style.setProperty('--angle', `${angleInput.value}deg`);
+        document.querySelector('#angle-value').textContent = `${angleInput.value}°`;
+      });
+    </script>
+  </body>
+</html>
