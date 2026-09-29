@@ -29,8 +29,13 @@ class KanbanBoard extends LitElement {
         const { columnOrder, columns, cards } = this._board;
 
         return html`
-      <div class="board" @card-move=${this._onCardMove} @card-drop=${this._onCardDrop}>
-        ${columnOrder.map((columnId) => {
+        <div
+            class="board"
+            @card-move=${this._onCardMove}
+            @card-drop=${this._onCardDrop}
+            @card-add=${this._onCardAdd}
+        >        
+            ${columnOrder.map((columnId) => {
             const column = columns[columnId];
             return html`
             <kanban-column
@@ -70,6 +75,20 @@ class KanbanBoard extends LitElement {
     _onCardDrop(e) {
         const { cardId, columnId } = e.detail;
         this._moveCard(cardId, columnId);
+    }
+
+    _onCardAdd(e) {
+        const { columnId, title, priority } = e.detail;
+        if (!title) return;
+        const { columns, cards } = this._board;
+        const id = Math.max(0, ...Object.keys(cards).map(Number)) + 1;
+        const column = columns[columnId];
+
+        this._board = {
+            ...this._board,
+            cards: { ...cards, [id]: { id, title, description: '', priority } },
+            columns: { ...columns, [columnId]: { ...column, cardIds: [...column.cardIds, id] } },
+        };
     }
 }
 

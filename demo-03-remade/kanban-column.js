@@ -55,6 +55,17 @@ class KanbanColumn extends LitElement {
       gap: 8px;
     }
 
+    form {
+      display: flex;
+      gap: 4px;
+      margin-top: 12px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+    }
+
     .empty {
       color: #64748b;
       font-style: italic;
@@ -101,6 +112,15 @@ class KanbanColumn extends LitElement {
         )
       }
         </div>
+        <form @submit=${this._onSubmit}>
+          <input name="title" placeholder="New card…" required />
+          <select name="priority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+           <option value="high">High</option>
+          </select>
+          <button>Add</button>
+        </form>
       </section >
     `;
   }
@@ -133,6 +153,23 @@ class KanbanColumn extends LitElement {
         bubbles: true,
       })
     );
+  }
+
+  _onSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    this.dispatchEvent(
+      new CustomEvent('card-add', {
+        detail: {
+          columnId: this.column.id,
+          title: data.get('title').trim(),
+          priority: data.get('priority'),
+        },
+        bubbles: true,
+      })
+    );
+    form.reset();
   }
 }
 
