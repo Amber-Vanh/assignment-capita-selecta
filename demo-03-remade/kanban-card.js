@@ -1,13 +1,13 @@
 import { LitElement, html, css, nothing } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
 
 class KanbanCard extends LitElement {
-    static properties = {
-        card: { type: Object },
-        priority: { type: String },
-        _expanded: { state: true },
-    };
+  static properties = {
+    card: { type: Object },
+    priority: { type: String },
+    _expanded: { state: true },
+  };
 
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
       font-family: system-ui, sans-serif;
@@ -51,32 +51,50 @@ class KanbanCard extends LitElement {
       font-size: 0.875rem;
       margin: 8px 0 0;
     }
+    .actions {
+      display: flex;
+      gap: 4px;
+    }
   `;
 
-    constructor() {
-        super();
-        this._expanded = false;
-    }
+  constructor() {
+    super();
+    this._expanded = false;
+  }
 
-    render() {
-        if (!this.card) return nothing;
+  render() {
+    if (!this.card) return nothing;
 
-        return html`
+    return html`
       <article>
         <header>
           <h3>${this.card.title}</h3>
-          <button @click=${this._toggle} aria-expanded=${this._expanded}>
-            ${this._expanded ? '−' : '+'}
-          </button>
+          <div class="actions">
+            <button @click=${() => this._move(-1)} aria-label="Move left">←</button>
+           <button @click=${this._toggle} aria-expanded=${this._expanded}>
+              ${this._expanded ? '−' : '+'}
+            </button>
+           <button @click=${() => this._move(1)} aria-label="Move right">→</button>
+         </div>
         </header>
         ${this._expanded ? html`<p>${this.card.description}</p>` : nothing}
       </article>
     `;
-    }
+  }
 
-    _toggle() {
-        this._expanded = !this._expanded;
-    }
+  _toggle() {
+    this._expanded = !this._expanded;
+  }
+
+  _move(direction) {
+    this.dispatchEvent(
+      new CustomEvent('card-move', {
+        detail: { cardId: this.card.id, direction },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
 }
 
 customElements.define('kanban-card', KanbanCard);

@@ -29,7 +29,7 @@ class KanbanBoard extends LitElement {
         const { columnOrder, columns, cards } = this._board;
 
         return html`
-      <div class="board">
+      <div class="board" @card-move=${this._onCardMove}>
         ${columnOrder.map((columnId) => {
             const column = columns[columnId];
             return html`
@@ -41,6 +41,30 @@ class KanbanBoard extends LitElement {
         })}
       </div>
     `;
+    }
+
+    _onCardMove(e) {
+        const { cardId, direction } = e.detail;
+        const { columnOrder, columns } = this._board;
+        const fromIndex = columnOrder.findIndex((columnId) => columns[columnId].cardIds.includes(cardId));
+        const toColumnId = columnOrder[fromIndex + direction];
+        if (toColumnId) this._moveCard(cardId, toColumnId);
+    }
+
+    _moveCard(cardId, toColumnId) {
+        const { columns } = this._board;
+        const fromColumn = Object.values(columns).find((column) => column.cardIds.includes(cardId));
+        if (!fromColumn || fromColumn.id === toColumnId) return;
+        const toColumn = columns[toColumnId];
+
+        this._board = {
+            ...this._board,
+            columns: {
+                ...columns,
+                [fromColumn.id]: { ...fromColumn, cardIds: fromColumn.cardIds.filter((id) => id !== cardId) },
+                [toColumn.id]: { ...toColumn, cardIds: [...toColumn.cardIds, cardId] },
+            },
+        };
     }
 }
 
