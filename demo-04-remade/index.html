@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Fractal tree – step 1</title>
+    <script type="module" src="./fractal-tree.js"></script>
+    <style>
+        body {
+            background: #f0f9ff;
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .stage {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 540px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The component that grows itself</h1>
+    <div class="stage">
+        <fractal-tree depth="5"></fractal-tree>
+    </div>
+</body>
+
+</html>
