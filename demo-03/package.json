@@ -1,0 +1,9 @@
+{
+  "name": "kanban-exercise",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve ."
+  }
+}

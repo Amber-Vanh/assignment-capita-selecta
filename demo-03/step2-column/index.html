@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kanban – step 2</title>
+    <script type="module" src="./kanban-column.js"></script>
+    <style>
+      body {
+        background: #f1f5f9;
+        font-family: system-ui, sans-serif;
+        max-width: 320px;
+        margin: 32px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Step 2: a column</h1>
+    <kanban-column></kanban-column>
+
+    <script type="module">
+      const column = document.querySelector('kanban-column');
+      column.column = { id: 'todo', title: 'To do' };
+      column.cards = [
+        { id: 1, title: 'Research Lit', description: 'Read the Lit docs about reactive properties.', priority: 'low' },
+        { id: 2, title: 'Build demo', description: 'Make a Kanban board with Web Components.', priority: 'medium' },
+        { id: 3, title: 'Rehearse talk', description: 'Practise the presentation twice.', priority: 'high' },
+      ];
+    </script>
+  </body>
+</html>
