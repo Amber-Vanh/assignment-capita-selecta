@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Kanban – step 1</title>
+    <script type="module" src="./kanban-card.js"></script>
+    <style>
+        body {
+            background: #f1f5f9;
+            font-family: system-ui, sans-serif;
+            max-width: 320px;
+            margin: 32px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Step 1: a card</h1>
+    <kanban-card priority="high"></kanban-card>
+
+    <script type="module">
+        document.querySelector('kanban-card').card = {
+            id: 1,
+            title: 'Research Lit',
+            description: 'Read the Lit docs about reactive properties.',
+            priority: 'high',
+        };
+    </script>
+</body>
+
+</html>
