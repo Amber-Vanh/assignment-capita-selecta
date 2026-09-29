@@ -20,7 +20,7 @@ See also: https://lit.dev/docs/
 
 ## Getting Started
 
-Every step of the demo lives in its own folder, so you can always look back at how the page looked at that point:
+We'll build the demo from scratch. Every step gets its own folder, so you can always look back at how the page looked at that point. At the end, your project will look like this:
 
 ```
 ├── live-demo
@@ -38,25 +38,68 @@ Every step of the demo lives in its own folder, so you can always look back at h
 │   │   ├── task-board.js
 ```
 
-Start a local server from the `live-demo` folder:
+### Create the project
+
+Create a new folder for the demo and **cd into it**:
+
+```bash
+mkdir live-demo
+cd live-demo
+```
+
+Create a `package.json` file with npm:
+
+```bash
+npm init -y
+```
+
+The `-y` flag accepts all the default answers, so npm doesn't ask you any questions.
+
+Open the generated `package.json` and make two changes:
+
+1. Replace the default `test` script with a `dev` script that starts a local web server.
+2. Change `"type"` from `"commonjs"` to `"module"`, so the `.js` files are treated as ES modules (with `import` / `export`).
+
+```diff
+{
+  "name": "live-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+-    "test": "echo \"Error: no test specified\" && exit 1"
++    "dev": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+-  "type": "commonjs"
++  "type": "module"
+}
+```
+
+[serve](https://www.npmjs.com/package/serve) is a small static file server. `npx` downloads and runs it for you, so you don't have to install anything. The `.` tells it to serve the current folder.
+
+> ℹ️ We don't `npm install lit`. In this demo, Lit is imported straight from a CDN URL in the browser (see step 2), so there's nothing to install.
+
+### Start the server
+
+Start the server from inside the `live-demo` folder:
 
 ```bash
 npm run dev
 ```
 
-Then open a step in the browser:
+> ⚠️ Always run this from inside `live-demo`, the folder with the `package.json`. From any other folder, npm fails with `ENOENT: Could not read package.json`.
+
+You'll see `Accepting connections at http://localhost:3000`. Leave this terminal running while you work. `serve` doesn't reload the page for you, so refresh the browser after every change.
+
+As you create the steps below, open each one in the browser:
 
 - http://localhost:3000/step1-static/
 - http://localhost:3000/step2-enhanced/
 - http://localhost:3000/step3-devtools/
 - http://localhost:3000/step4-chaos/
-
-You can also serve a single step on its own:
-
-```bash
-cd step2-enhanced
-npx serve
-```
 
 > ⚠️ Don't double-click `index.html` to open it. Browsers block ES modules on `file://` URLs, so you always need a (local) server.
 
@@ -282,7 +325,3 @@ Decorators need a build step (TypeScript or Babel), because browsers can't run t
 | `@state() _tasks`            | `static properties = { _tasks: { state: true } }` |
 
 They do exactly the same thing.
-
-### Dependencies
-
-`lit` and `@lit-labs/motion` are listed in `package.json` for later steps. The current steps load Lit from the CDN, so you don't need to run `npm install` yet.
