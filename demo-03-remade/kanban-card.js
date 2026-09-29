@@ -31,6 +31,7 @@ class KanbanCard extends LitElement {
       border-left: 6px solid var(--accent);
       border-radius: 8px;
       box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
+      cursor: grab;
       padding: 8px 12px;
     }
 
@@ -66,7 +67,7 @@ class KanbanCard extends LitElement {
     if (!this.card) return nothing;
 
     return html`
-      <article>
+      <article draggable="true" @dragstart=${this._onDragStart}>
         <header>
           <h3>${this.card.title}</h3>
           <div class="actions">
@@ -94,6 +95,11 @@ class KanbanCard extends LitElement {
         composed: true,
       })
     );
+  }
+
+  _onDragStart(e) {
+    e.dataTransfer.setData('text/plain', String(this.card.id));
+    e.dataTransfer.effectAllowed = 'move';
   }
 }
 

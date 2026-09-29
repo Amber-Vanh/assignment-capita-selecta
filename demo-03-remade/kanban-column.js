@@ -1,16 +1,16 @@
-import { LitElement, html, css, nothing, repeat } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
-import './kanban-card.js';
+import { LitElement, html, css, nothing, repeat, classMap } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js'; import './kanban-card.js';
 
 const PRIORITY_RANK = { high: 0, medium: 1, low: 2 };
 
 class KanbanColumn extends LitElement {
-    static properties = {
-        column: { type: Object },
-        cards: { type: Array },
-        _sorted: { state: true },
-    };
+  static properties = {
+    column: { type: Object },
+    cards: { type: Array },
+    _sorted: { state: true },
+    _dragDepth: { state: true },
+  };
 
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
       font-family: system-ui, sans-serif;
@@ -21,6 +21,13 @@ class KanbanColumn extends LitElement {
       border-radius: 12px;
       padding: 12px;
       min-height: 200px;
+      outline: 3px dashed transparent;
+      transition: background 0.15s, outline-color 0.15s;
+    }
+
+    section.drag-over {
+      background: #dbeafe;
+      outline-color: #3b82f6;
     }
 
     header {
@@ -55,22 +62,29 @@ class KanbanColumn extends LitElement {
     }
   `;
 
-    constructor() {
-        super();
-        this.cards = [];
-        this._sorted = false;
-    }
+  constructor() {
+    super();
+    this.cards = [];
+    this._sorted = false;
+    this._dragDepth = 0;
+  }
 
-    get _visibleCards() {
-        if (!this._sorted) return this.cards;
-        return [...this.cards].sort((a, b) => PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority]);
-    }
+  get _visibleCards() {
+    if (!this._sorted) return this.cards;
+    return [...this.cards].sort((a, b) => PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority]);
+  }
 
-    render() {
-        if (!this.column) return nothing;
+  render() {
+    if (!this.column) return nothing;
 
-        return html`
-      <section>
+    return html`
+        <section
+          class=${classMap({ 'drag-over': this._dragDepth > 0 })}
+          @dragenter=${this._onDragEnter}
+          @dragover=${this._onDragOver}
+          @dragleave=${this._onDragLeave}
+          @drop=${this._onDrop}
+        >
         <header>
           <h2>${this.column.title} <span class="count">${this.cards.length}</span></h2>
           <button @click=${this._toggleSort}>
@@ -79,21 +93,47 @@ class KanbanColumn extends LitElement {
         </header>
         <div class="cards">
           ${this.cards.length === 0
-                ? html`<p class="empty">No cards yet</p>`
-                : repeat(
-                    this._visibleCards,
-                    (card) => card.id,
-                    (card) => html`<kanban-card .card=${card} priority=${card.priority}></kanban-card>`
-                )
-    }
+        ? html`<p class="empty">No cards yet</p>`
+        : repeat(
+          this._visibleCards,
+          (card) => card.id,
+          (card) => html`<kanban-card .card=${card} priority=${card.priority}></kanban-card>`
+        )
+      }
         </div>
       </section >
     `;
-    }
+  }
 
-    _toggleSort() {
-        this._sorted = !this._sorted;
-    }
+  _toggleSort() {
+    this._sorted = !this._sorted;
+  }
+
+  _onDragEnter(e) {
+    e.preventDefault();
+    this._dragDepth++;
+  }
+
+  _onDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  _onDragLeave() {
+    this._dragDepth--;
+  }
+
+  _onDrop(e) {
+    e.preventDefault();
+    this._dragDepth = 0;
+    const cardId = Number(e.dataTransfer.getData('text/plain'));
+    this.dispatchEvent(
+      new CustomEvent('card-drop', {
+        detail: { cardId, columnId: this.column.id },
+        bubbles: true,
+      })
+    );
+  }
 }
 
 customElements.define('kanban-column', KanbanColumn);

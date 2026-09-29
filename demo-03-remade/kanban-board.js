@@ -29,7 +29,7 @@ class KanbanBoard extends LitElement {
         const { columnOrder, columns, cards } = this._board;
 
         return html`
-      <div class="board" @card-move=${this._onCardMove}>
+      <div class="board" @card-move=${this._onCardMove} @card-drop=${this._onCardDrop}>
         ${columnOrder.map((columnId) => {
             const column = columns[columnId];
             return html`
@@ -65,6 +65,11 @@ class KanbanBoard extends LitElement {
                 [toColumn.id]: { ...toColumn, cardIds: [...toColumn.cardIds, cardId] },
             },
         };
+    }
+
+    _onCardDrop(e) {
+        const { cardId, columnId } = e.detail;
+        this._moveCard(cardId, columnId);
     }
 }
 
