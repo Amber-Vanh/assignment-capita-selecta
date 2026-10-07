@@ -1,0 +1,120 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "You",
+      "avatar": "🛋️"
+    },
+    {
+      "id": "2",
+      "name": "Alex Chen",
+      "avatar": "😎"
+    },
+    {
+      "id": "3",
+      "name": "Sam Rivera",
+      "avatar": "🎮"
+    },
+    {
+      "id": "4",
+      "name": "Jordan Park",
+      "avatar": "📺"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "TV Binge",
+      "emoji": "📺"
+    },
+    {
+      "id": "2",
+      "name": "Gaming",
+      "emoji": "🎮"
+    },
+    {
+      "id": "3",
+      "name": "Napping",
+      "emoji": "😴"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "1",
+      "userId": "1",
+      "categoryId": "1",
+      "date": "2026-05-07",
+      "duration": 182,
+      "notes": "Finished Breaking Bad finale"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "categoryId": "2",
+      "date": "2026-05-05",
+      "duration": 125,
+      "notes": "Minecraft base rebuild"
+    },
+    {
+      "id": "3",
+      "userId": "1",
+      "categoryId": "3",
+      "date": "2026-05-04",
+      "duration": 90,
+      "notes": "Sunday afternoon nap"
+    },
+    {
+      "id": "4",
+      "userId": "2",
+      "categoryId": "1",
+      "date": "2026-05-06",
+      "duration": 240,
+      "notes": "Started Squid Game S3"
+    },
+    {
+      "id": "5",
+      "userId": "2",
+      "categoryId": "3",
+      "date": "2026-05-03",
+      "duration": 60,
+      "notes": "Power nap before dinner"
+    },
+    {
+      "id": "6",
+      "userId": "3",
+      "categoryId": "2",
+      "date": "2026-05-07",
+      "duration": 300,
+      "notes": "Elden Ring DLC run"
+    },
+    {
+      "id": "7",
+      "userId": "3",
+      "categoryId": "1",
+      "date": "2026-05-02",
+      "duration": 150,
+      "notes": "The Bear season 4"
+    },
+    {
+      "id": "8",
+      "userId": "4",
+      "categoryId": "2",
+      "date": "2026-05-07",
+      "duration": 480,
+      "notes": "This should NOT appear in feed"
+    }
+  ],
+  "follows": [
+    {
+      "followerId": "1",
+      "followingId": "2",
+      "id": "u38_chrzpP0"
+    },
+    {
+      "followerId": "1",
+      "followingId": "3",
+      "id": "zeshbF4lOkc"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
