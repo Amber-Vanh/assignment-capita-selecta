@@ -2,7 +2,7 @@
 
 A Lit port of the React Native (Expo) app **Fortune Teller – Wizarding Edition**. It has the same look, screens and behaviour, but it is built with web components and runs in the browser instead of as a native app.
 
-- Original: `assignment-react-native-main` (Expo SDK 57, React Native 0.86, React 19)
+- Original: `assignment-react-native-original` (Expo SDK 57, React Native 0.86, React 19)
 - This version: Lit 3 + Vite, plain JavaScript, no React
 
 For the side-by-side analysis, see [COMPARISON.md](COMPARISON.md).
@@ -38,7 +38,7 @@ On a phone it *looks* like an app, because it fills the screen and is built for 
 ## Run it
 
 ```bash
-cd assignment-lit
+cd assignment-react-native-lit
 npm install
 npm run dev        # http://localhost:5173, also shown on your LAN address
 npm run build      # production build into dist/
@@ -63,7 +63,7 @@ On a desktop you can move between pages by swiping on a trackpad, dragging with 
 ## Project structure
 
 ```
-assignment-lit/
+assignment-react-native-lit/
 ├── index.html              entry page, loads the fonts and <fortune-app>
 ├── vite.config.js          dev server settings
 ├── public/

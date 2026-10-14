@@ -1,6 +1,6 @@
 # Fortune Teller: React Native (Expo) vs Lit
 
-A comparison based on the React Native app in `assignment-react-native-main` and the complete Lit port in this folder.
+A comparison based on the React Native app in `assignment-react-native-original` and the complete Lit port in this folder.
 
 ## What was built
 
@@ -23,7 +23,7 @@ Not ported: `error-boundary.tsx`. Lit has no equivalent, and a web component tha
 Run it with:
 
 ```bash
-cd assignment-lit
+cd assignment-react-native-lit
 npm install
 npm run dev        # http://localhost:5173, also exposed on your LAN
 ```

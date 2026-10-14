@@ -2,7 +2,7 @@
 
 ## Table of contents
 
-- [Demo 01 – React (`demos/demo-01-React`)](#demo-01--react-demosdemo-01-react)
+- [Demo 01 – React (`demo-01-React`)](#demo-01--react-demo-01-react)
   - [Run it](#run-it)
   - [What happens in the demo](#what-happens-in-the-demo)
     - [1. The data is stored flat (normalized state)](#1-the-data-is-stored-flat-normalized-state)
@@ -13,7 +13,7 @@
   - [React concepts shown](#react-concepts-shown)
   - [Styling](#styling)
   - [Known limitations](#known-limitations)
-- [Demo 01 – Lit (`demos/demo-01-Lit`)](#demo-01--lit-demosdemo-01-lit)
+- [Demo 01 – Lit (`demo-01-Lit`)](#demo-01--lit-demo-01-lit)
   - [Run it](#run-it-1)
   - [No React, but Vite](#no-react-but-vite)
   - [What happens in the demo](#what-happens-in-the-demo-1)
@@ -30,14 +30,14 @@
 
 ---
 
-## Demo 01 – React (`demos/demo-01-React`)
+## Demo 01 – React (`demo-01-React`)
 
 A small React app (Vite + React 19) that shows the structure of a company, **TechCorp**. The company has departments, the departments have teams, and the teams have employees. You can move an employee to a different team. The page updates right away, and next to it you can see the raw state as JSON.
 
 ### Run it
 
 ```bash
-cd demos/demo-01-React
+cd demo-01-React
 npm install
 npm run dev
 ```
@@ -46,7 +46,7 @@ npm run dev
 
 #### 1. The data is stored flat (normalized state)
 
-The starting data is in [`src/company.js`](demos/demo-01-React/src/company.js). Departments, teams and employees are **not** nested inside each other. Each one is its own lookup table, keyed by `id`, and they point to each other with ID arrays:
+The starting data is in [`src/company.js`](demo-01-React/src/company.js). Departments, teams and employees are **not** nested inside each other. Each one is its own lookup table, keyed by `id`, and they point to each other with ID arrays:
 
 ```js
 departments: { 1: { id: 1, name: "Engineering", teamIds: [101, 102] }, ... },
@@ -61,7 +61,7 @@ This means:
 
 #### 2. The state lives in `App`
 
-[`src/App.jsx`](demos/demo-01-React/src/App.jsx) puts the whole company object into state with `useState(initialCompany)`. `App` renders:
+[`src/App.jsx`](demo-01-React/src/App.jsx) puts the whole company object into state with `useState(initialCompany)`. `App` renders:
 - one `Department` component for every department (`Object.values(company.departments).map(...)`);
 - a `<pre>` block with `JSON.stringify(company, null, 2)`, so you can watch the state change live.
 
@@ -117,8 +117,8 @@ When you pick another team in the dropdown:
 
 ### Styling
 
-- [Open Props](https://open-props.style/) is used for design tokens, a CSS reset (`normalize`) and button styles ([`src/index.css`](demos/demo-01-React/src/index.css)).
-- [`src/App.css`](demos/demo-01-React/src/App.css) puts the page in two columns: the company tree on the left and the JSON state on the right.
+- [Open Props](https://open-props.style/) is used for design tokens, a CSS reset (`normalize`) and button styles ([`src/index.css`](demo-01-React/src/index.css)).
+- [`src/App.css`](demo-01-React/src/App.css) puts the page in two columns: the company tree on the left and the JSON state on the right.
 
 ### Known limitations
 
@@ -128,21 +128,21 @@ When you pick another team in the dropdown:
 
 ---
 
-## Demo 01 – Lit (`demos/demo-01-Lit`)
+## Demo 01 – Lit (`demo-01-Lit`)
 
 The same TechCorp exercise, rebuilt with [Lit](https://lit.dev/) instead of React. It uses the same data, the same component structure and the same behaviour: click ⚙︎, choose a team, and the employee moves while the JSON on the right updates. The code is plain JavaScript (Lit 3, no decorators, no TypeScript), bundled with Vite.
 
 ### Run it
 
 ```bash
-cd demos/demo-01-Lit
+cd demo-01-Lit
 npm install
 npm run dev
 ```
 
 ### No React, but Vite
 
-**No React.** [`package.json`](demos/demo-01-Lit/package.json) only has `lit` and `open-props` as dependencies. None of the Lit files import anything from React, and there is no JSX.
+**No React.** [`package.json`](demo-01-Lit/package.json) only has `lit` and `open-props` as dependencies. None of the Lit files import anything from React, and there is no JSX.
 
 **Vite is used, but only as a build tool.** It is the only devDependency. It doesn't appear in the app code; it runs the dev server and bundles the files. It is needed for two things:
 
@@ -163,7 +163,7 @@ and add a `<link>` to the Open Props CSS in `index.html`. Then any simple static
 
 #### 1. Same flat data
 
-[`src/company.js`](demos/demo-01-Lit/src/company.js) is the same file as in the React demo: separate lookup tables for departments, teams and employees, linked by IDs.
+[`src/company.js`](demo-01-Lit/src/company.js) is the same file as in the React demo: separate lookup tables for departments, teams and employees, linked by IDs.
 
 #### 2. Every component is a Web Component
 
@@ -177,11 +177,11 @@ Each component is a class that extends `LitElement` and is registered as a real 
             └── <team-selector> (dropdown, only in edit mode)
 ```
 
-[`index.html`](demos/demo-01-Lit/index.html) just contains `<company-app></company-app>`. The browser recognises the tag as soon as [`src/main.js`](demos/demo-01-Lit/src/main.js) imports the component.
+[`index.html`](demo-01-Lit/index.html) just contains `<company-app></company-app>`. The browser recognises the tag as soon as [`src/main.js`](demo-01-Lit/src/main.js) imports the component.
 
 #### 3. State in `<company-app>`
 
-[`company-app.js`](demos/demo-01-Lit/src/components/company-app.js) declares the company as internal reactive state:
+[`company-app.js`](demo-01-Lit/src/components/company-app.js) declares the company as internal reactive state:
 
 ```js
 static properties = {
@@ -208,17 +208,17 @@ Lit components don't use JSX. They return an `html` tagged template literal from
 ></company-team>
 ```
 
-Lists are rendered with the `repeat()` directive, which uses a key (the ID) the same way React's `key` prop does. Conditional rendering is a plain ternary, for example *"No employees in this team"* in [`company-team.js`](demos/demo-01-Lit/src/components/company-team.js).
+Lists are rendered with the `repeat()` directive, which uses a key (the ID) the same way React's `key` prop does. Conditional rendering is a plain ternary, for example *"No employees in this team"* in [`company-team.js`](demo-01-Lit/src/components/company-team.js).
 
 #### 5. Local UI state in `<company-employee>`
 
-[`company-employee.js`](demos/demo-01-Lit/src/components/company-employee.js) has its own `isEditMode: { state: true }`. Clicking ⚙︎ (`@click=${() => (this.isEditMode = true)}`) swaps the button for a `<team-selector>`.
+[`company-employee.js`](demo-01-Lit/src/components/company-employee.js) has its own `isEditMode: { state: true }`. Clicking ⚙︎ (`@click=${() => (this.isEditMode = true)}`) swaps the button for a `<team-selector>`.
 
 #### 6. Moving an employee with events
 
 Here the Lit version works differently from React. There is **no callback prop passed down**. The components send **events** up instead:
 
-1. [`<team-selector>`](demos/demo-01-Lit/src/components/team-selector.js) fires a `team-change` event with `{ teamId }` when the `<select>` changes.
+1. [`<team-selector>`](demo-01-Lit/src/components/team-selector.js) fires a `team-change` event with `{ teamId }` when the `<select>` changes.
 2. `<company-employee>` listens with `@team-change`, adds its own ID, and fires a new event:
    ```js
    this.dispatchEvent(
@@ -242,9 +242,9 @@ Here the Lit version works differently from React. There is **no callback prop p
 
 Each component renders into its own **Shadow DOM**, so its styles are scoped: CSS from outside does not get in, and CSS from inside does not leak out.
 
-- [`src/index.css`](demos/demo-01-Lit/src/index.css) loads the Open Props variables and `normalize` for the page itself.
+- [`src/index.css`](demo-01-Lit/src/index.css) loads the Open Props variables and `normalize` for the page itself.
 - Global stylesheets like `open-props/buttons` do **not** reach inside a shadow root. CSS custom properties (`var(--size-4)`) **do** pass through, because they are inherited.
-- [`src/shared-styles.js`](demos/demo-01-Lit/src/shared-styles.js) therefore holds a shared `css` block (headings, `article`, buttons) that is built from the Open Props variables and added to every component's `static styles`.
+- [`src/shared-styles.js`](demo-01-Lit/src/shared-styles.js) therefore holds a shared `css` block (headings, `article`, buttons) that is built from the Open Props variables and added to every component's `static styles`.
 
 ---
 
