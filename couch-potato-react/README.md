@@ -18,6 +18,8 @@ npm install    # only the first time
 npm run dev
 ```
 
+If .env is missing, copy .env.example to .env.
+
 Then open http://localhost:5173/ in your browser. Press `Ctrl+C` in each terminal to stop.
 
 ---

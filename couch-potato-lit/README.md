@@ -24,6 +24,7 @@ npm run dev
 ```
 
 The API address comes from `.env` (`VITE_API_BASE_URL=http://localhost:3000`).
+If .env is missing, copy .env.example to .env.
 
 ## Tests
 
